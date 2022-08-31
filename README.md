@@ -1,5 +1,4 @@
-# mp3-extra-taunts-mod
-MP3 more character taunts mod
+# MP3-Translation-Mod
 
 To apply mod to vanilla rom:<br>
 Download flips (IPS patcher) and apply the .bps patch provided to a vanilla US mp3.z64 rom<br><br>
