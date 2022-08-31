@@ -1,4 +1,4 @@
-# mp3-extra-taunts-mod
+# mp3-extra-translation-mod
 MP3 more character taunts mod
 
 To apply mod to vanilla rom:<br>
