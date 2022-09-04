@@ -4,12 +4,12 @@
 NOP
 
 //Payload related information
-.definelabel PAYLOAD_START_ROM, 0x983D0
+.definelabel PAYLOAD_START_ROM, 0x2000000
 .definelabel PAYLOAD_START_RAM, 0x80400000
 .definelabel MP3_MOD_ROM, PAYLOAD_START_ROM + 0x1000
 .definelabel MP3_MOD_RAM, PAYLOAD_START_RAM + 0x1000
 
-.definelabel PAYLOAD_SIZE, 0x7F40
+.definelabel PAYLOAD_SIZE, 0xFFF0
 
 PAYLOAD_START:
 .headersize 0x7FFFF400
@@ -45,6 +45,33 @@ NOP
 jump1:
 J 0x8000C2F0
 NOP
+
+
+getCustomMessageID: //a1 holds message ID
+ADDIU sp, sp, -0x28
+SW ra, 0x0024 (sp)
+
+LI t0, textGroups
+SRL t1, a1, 8 //knock bottom 8 bits off
+SLL t2, t1, 2 //multiply by 2
+ADDU t3, t2, t0 //now points to a char* []
+LW t4, 0x0000 (t3) //load said char* []
+ANDI t1, a1, 0x00FF //clear register except bottom 8 bits
+SLL t2, t1, 2 //multiply by 4
+ADDU t4, t4, t2
+LW t5, 0x0000 (t4)
+LI t6, defaultString
+BNEZL t5, newMessage //new message not found, default to original string
+ADDU a1, t5, r0 //new pointer to message
+
+newMessage:
+J 0x8005B444
+NOP
+
+
+//data
+messageID:
+.word 0
 
 
 .headersize MP3_MOD_RAM - MP3_MOD_ROM

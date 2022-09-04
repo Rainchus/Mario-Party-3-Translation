@@ -13,6 +13,11 @@
 
 
 //functions
+.definelabel mp3bcopy, 0x8007B970
+.definelabel MallocPerm, 0x80035864
+.definelabel FreePerm, 0x80035888
+.definelabel mp3strlen, 0x8007BD70
+.definelabel ShowMessage, 0x800EC8EC
 .definelabel GetCurrentPlayerIndex, 0x800F2130
 .definelabel GetPlayerStruct, 0x800F213C
 .definelabel unknownDMAFunc, 0x8004DB14

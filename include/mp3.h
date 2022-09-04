@@ -46,6 +46,14 @@ typedef unsigned short u16;
 typedef char s8;
 typedef unsigned char u8;
 
+extern char** textGroups[];
+extern void* messageLoadHook(s32 stringID);
+
+extern void* MallocPerm(s32 size);
+extern void FreePerm(void*);
+extern s32 mp3strlen(char*);
+extern void mp3bcopy(char* source, char* destination, s32 size);
+
 typedef struct playerMain {
 /* 0x00 */ u8  unk_00;
 /* 0x01 */ u8  cpu_difficulty;
