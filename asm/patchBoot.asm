@@ -51,6 +51,11 @@ getCustomMessageID: //a1 holds message ID
 ADDIU sp, sp, -0x28
 SW ra, 0x0024 (sp)
 
+LUI t0, 0x8000
+AND t1, t0, a1
+BEQ t1, t0, isPointer
+NOP
+
 LI t0, textGroups
 SRL t1, a1, 8 //knock bottom 8 bits off
 SLL t2, t1, 2 //multiply by 2
@@ -64,15 +69,22 @@ LI t6, defaultString
 BNEZL t5, newMessage //new message not found, default to original string
 ADDU a1, t5, r0 //new pointer to message
 
+isPointer: //here temporarily for testing
+
 newMessage:
 J 0x8005B444
 NOP
+
+
+
 
 
 //data
 messageID:
 .word 0
 
+stringBuffer:
+.fill 0x100, 0
 
 .headersize MP3_MOD_RAM - MP3_MOD_ROM
 .org MP3_MOD_RAM
