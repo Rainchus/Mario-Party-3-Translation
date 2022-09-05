@@ -6,6 +6,8 @@ char defaultString[] = "test";
 
 s32 argsTemp[8];
 
+char group4D_index0[] = "Test replacement message 4D00\xC2";
+char group4D_index1[] = "Test replacement message 4D01\xC2"
 char group5A_index0[] = "Test replacement message\xC2";
 
 char* group00[200] = {0};
@@ -85,7 +87,7 @@ char* group49[200] = {0};
 char* group4A[200] = {0};
 char* group4B[200] = {0};
 char* group4C[200] = {0};
-char* group4D[200] = {group5A_index0};
+char* group4D[200] = {group4D_index0, group4D_index1};
 char* group4E[200] = {0};
 char* group4F[200] = {0};
 char* group50[200] = {0};
