@@ -39,10 +39,14 @@ ADDIU a3, r0, 0x0008
 
 BEQZ v0, jump1
 NOP
+JAL cBootFunction
+NOP
 J 0x8000C2E8
 NOP
 
 jump1:
+JAL cBootFunction
+NOP
 J 0x8000C2F0
 NOP
 
