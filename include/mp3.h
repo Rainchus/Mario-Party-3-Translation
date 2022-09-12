@@ -1,3 +1,5 @@
+#ifndef _MP3_H
+#define _MP3_H
 /*
 Here we create declarations for a few functions and variables in Mario Party 3 so they can be referenced from our C code.
 Later we will tell armips their addresses by defining labels for them in mp3.asm.
@@ -45,6 +47,8 @@ typedef short s16;
 typedef unsigned short u16;
 typedef char s8;
 typedef unsigned char u8;
+
+extern u8 asciiLUT[];
 
 extern char** textGroups[];
 extern void* messageLoadHook(s32 stringID);
@@ -117,6 +121,4 @@ extern s32 GetCurrentPlayerIndex(void); //0x800F2130
 extern void unknownDMAFunc(s32 romAddr, void* ramDestination, s32 size);
 extern void PlaySound(s32 soundIndex);
 
-
-
-
+#endif
