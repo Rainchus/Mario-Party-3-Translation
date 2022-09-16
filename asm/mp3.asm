@@ -22,3 +22,5 @@
 .definelabel GetPlayerStruct, 0x800F213C
 .definelabel unknownDMAFunc, 0x8004DB14
 .definelabel PlaySound, 0x8004AA88
+.definelabel SleepVProcess, 0x8004F074
+.definelabel GetRandomByte, 0x8000B16C

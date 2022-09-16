@@ -8,48 +8,48 @@ NOP
 .definelabel PAYLOAD_START_RAM, 0x80400000
 .definelabel MP3_MOD_ROM, PAYLOAD_START_ROM + 0x1000
 .definelabel MP3_MOD_RAM, PAYLOAD_START_RAM + 0x1000
+.definelabel PAYLOAD_SIZE, 0x20000 //fix to adjust automatically later
 
-.definelabel PAYLOAD_SIZE, 0xFFF0
-
+//hook main game loop, DMA our code/data, jump to the game loop that was moved to expansion pak memory
+.org 0x8000E7B8 //ROM 0xF3B8
 PAYLOAD_START:
-.headersize 0x7FFFF400
-.org 0x8000C2C8
+//F3B8, 0x8000E7B8
+ADDIU sp, sp, -0x18
+SW ra, 0x0010 (sp)
 LUI a0, hi(PAYLOAD_START_ROM)
 ADDIU a0, a0, lo(PAYLOAD_START_ROM)
 LUI a1, hi(PAYLOAD_START_RAM)
 ADDIU a1, a1, lo(PAYLOAD_START_RAM)
+LUI a2, hi(PAYLOAD_SIZE)
 JAL unknownDMAFunc
-ORI a2, r0, (PAYLOAD_SIZE)
-J originalCode
-NOP
+ADDIU a2, a2, lo(PAYLOAD_SIZE)
 
+    J mainLoop
+    NOP
 
-//.headersize 0x7F86E000 // Set the displacement between ROM and RAM addresses (0xB92000)
-.headersize (PAYLOAD_START_RAM - PAYLOAD_START_ROM)
-.org 0x80400000 //ct1.asm max size of 0x1000, otherwise will overwrite ct1.o
-originalCode:
-//restore code overwritten by dma hook
-LUI a0, 0x800D
-ADDIU a0, a0, 0xE1A0
-ADDU a1, r0, r0
-LUI a2, 0x800D
-ADDIU a2, a2, 0x0E50
-JAL 0x80072590
-ADDIU a3, r0, 0x0008
+LW ra, 0x0010 (sp)
+JR RA
+ADDIU sp, sp, 0x18
 
-BEQZ v0, jump1
-NOP
-JAL cBootFunction
-NOP
-J 0x8000C2E8
-NOP
-
-jump1:
-JAL cBootFunction
-NOP
-J 0x8000C2F0
-NOP
-
+customDataAndCode:
+//copied main game loop
+.headersize 0x7E400000
+.org 0x80400000
+    mainLoop:
+    JAL SleepVProcess
+    NOP
+    JAL GetRandomByte
+    NOP
+    JAL 0x8000BA30
+    NOP
+    JAL 0x80014A3C
+    ADDIU a0, r0, 2
+    LUI a0, 0x800D
+    ADDIU a0, a0, 0xCF38
+    JAL 0x8001B0B4
+    ADDIU a1, r0, 2
+    J mainLoop
+    NOP
 
 getCustomMessageID: //a1 holds message ID
 ADDIU sp, sp, -0x28
@@ -80,9 +80,6 @@ J 0x8005B444
 NOP
 
 
-
-
-
 //data
 messageID:
 .word 0
@@ -94,3 +91,5 @@ stringBuffer:
 .org MP3_MOD_RAM
 .align 8
 .importobj "obj/strings.o"
+
+END:
