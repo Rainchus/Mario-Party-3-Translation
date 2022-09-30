@@ -24,7 +24,7 @@ LUI a2, hi(PAYLOAD_SIZE)
 JAL unknownDMAFunc
 ADDIU a2, a2, lo(PAYLOAD_SIZE)
 
-    J mainLoop
+    J mainLoopStart
     NOP
 
 LW ra, 0x0010 (sp)
@@ -35,6 +35,9 @@ customDataAndCode:
 //copied main game loop
 .headersize 0x7E400000
 .org 0x80400000
+    mainLoopStart:
+    JAL cBootFunction
+    NOP
     mainLoop:
     JAL SleepVProcess
     NOP
