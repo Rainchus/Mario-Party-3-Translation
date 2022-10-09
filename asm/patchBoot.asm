@@ -72,8 +72,9 @@ ANDI t1, a1, 0x00FF //clear register except bottom 8 bits
 SLL t2, t1, 2 //multiply by 4
 ADDU t4, t4, t2
 LW t5, 0x0000 (t4)
+ADDIU t7, r0, 0xFFFF
 LI t6, defaultString
-BNEZL t5, newMessage //new message not found, default to original string
+BNEL t5, t7, newMessage //new message not found, default to original string
 ADDU a1, t5, r0 //new pointer to message
 
 isPointer: //here temporarily for testing
