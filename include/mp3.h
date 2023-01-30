@@ -6,6 +6,8 @@ Later we will tell armips their addresses by defining labels for them in mp3.asm
 */
 
 #define NULL 0
+#define TRUE 1
+#define FALSE 0
 
 /* Buttons */
 
@@ -51,7 +53,6 @@ typedef unsigned char u8;
 extern u8 asciiLUT[];
 
 extern char** textGroups[];
-extern void* messageLoadHook(s32 stringID);
 
 extern void* MallocPerm(s32 size);
 extern void FreePerm(void*);
