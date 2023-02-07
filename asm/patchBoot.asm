@@ -55,8 +55,14 @@ customDataAndCode:
     NOP
 
 getCustomMessageID: //a1 holds message ID
-ADDIU sp, sp, -0x28
-SW ra, 0x0024 (sp)
+ADDIU sp, sp, -0x28 //restore from hook
+SW ra, 0x0024 (sp) //restore from hook
+
+ADDIU sp, sp, -0x30
+SW a0, 0x0020 (sp)
+SW a1, 0x0024 (sp)
+SW a2, 0x0028 (sp)
+//SW t3, 0x002C (sp)
 
 LUI t0, 0x8000
 AND t1, t0, a1
@@ -67,21 +73,32 @@ LI t0, textGroups
 SRL t1, a1, 8 //knock bottom 8 bits off
 SLL t2, t1, 2 //multiply by 2
 ADDU t3, t2, t0 //now points to a char* []
-LW t4, 0x0000 (t3) //load said char* []
-ANDI t1, a1, 0x00FF //clear register except bottom 8 bits
-SLL t2, t1, 2 //multiply by 4
-ADDU t4, t4, t2
+LW a0, 0x0000 (t3) //load said char* []
+JAL getGroupSize
+SW a0, 0x002C (sp)
+BEQZ v0, size0
+LW a1, 0x0024 (sp)
+ANDI t0, a1, 0x00FF //get offset into group
+SLT t1, v0, t0
+BNEZ t1, exitLookup
+LW t3, 0x002C (sp)
+SLL t2, t0, 2 //multiply by 4
+ADDU t4, t3, t2
 LW t5, 0x0000 (t4)
-ADDIU t7, r0, 0xFFFF
 LI t6, defaultString
 BNEL t5, t7, newMessage //new message not found, default to original string
 ADDU a1, t5, r0 //new pointer to message
 
-isPointer: //here temporarily for testing
 
+isPointer: //here temporarily for testing
+size0:
 newMessage:
+exitLookup:
+LW a0, 0x0020 (sp)
+LW a2, 0x0028 (sp)
+LW t3, 0x002C (sp)
 J 0x8005B444
-NOP
+ADDIU sp, sp, 0x30
 
 crash_screen_sleep: //takes arg a0, ms to sleep
 ADDIU sp, sp, -0x20

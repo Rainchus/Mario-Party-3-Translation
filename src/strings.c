@@ -143,7 +143,7 @@ char* group49[] = {END_GROUP};
 char* group4A[] = {END_GROUP};
 char* group4B[] = {END_GROUP};
 char* group4C[] = {END_GROUP};
-char* group4D[] = {END_GROUP};
+char* group4D[] = {"Test4D 00", "Test4D 01", "Test4D 02", END_GROUP};
 char* group4E[] = {END_GROUP};
 char* group4F[] = {END_GROUP};
 char* group50[] = {END_GROUP};
@@ -218,4 +218,11 @@ void cBootFunction(void) {
         }
     #endif
     crash_screen_init();
+}
+
+s32 getGroupSize(char** group) {
+    s32 i;
+
+    for (i = 0; group[i] != (char*)-1; i++) {}
+    return i;
 }
