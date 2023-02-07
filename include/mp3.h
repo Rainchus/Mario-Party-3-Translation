@@ -1,13 +1,7 @@
 #ifndef _MP3_H
 #define _MP3_H
-/*
-Here we create declarations for a few functions and variables in Mario Party 3 so they can be referenced from our C code.
-Later we will tell armips their addresses by defining labels for them in mp3.asm.
-*/
 
-#define NULL 0
-#define TRUE 1
-#define FALSE 0
+#include "OS.h"
 
 /* Buttons */
 
@@ -43,16 +37,14 @@ Later we will tell armips their addresses by defining labels for them in mp3.asm
 #define R_CBUTTONS	CONT_F
 #define D_CBUTTONS	CONT_D
 
-typedef int s32;
-typedef unsigned int u32;
-typedef short s16;
-typedef unsigned short u16;
-typedef char s8;
-typedef unsigned char u8;
-
 extern u8 asciiLUT[];
 
 extern char** textGroups[];
+
+/*
+Here we create declarations for a few functions and variables in Mario Party 3 so they can be referenced from our C code.
+Later we will tell armips their addresses by defining labels for them in mp3.asm.
+*/
 
 extern void* MallocPerm(s32 size);
 extern void FreePerm(void*);
