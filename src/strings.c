@@ -224,6 +224,6 @@ void cBootFunction(void) {
 s32 getGroupSize(char** group) {
     s32 i;
 
-    for (i = 0; group[i] != (char*)-1; i++) {}
+    for (i = 0; group[i] != END_GROUP; i++) {}
     return i;
 }
