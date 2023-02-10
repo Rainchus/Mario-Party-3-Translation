@@ -6,9 +6,9 @@ NOP
 //Payload related information
 .definelabel PAYLOAD_START_ROM, 0x2000000
 .definelabel PAYLOAD_START_RAM, 0x80400000
-.definelabel MP3_MOD_ROM, PAYLOAD_START_ROM + 0x1000
-.definelabel MP3_MOD_RAM, PAYLOAD_START_RAM + 0x1000
-.definelabel PAYLOAD_SIZE, 0x20000 //fix to adjust automatically later
+.definelabel MP3_MOD_ROM, PAYLOAD_START_ROM + 0x2000
+.definelabel MP3_MOD_RAM, PAYLOAD_START_RAM + 0x2000
+.definelabel PAYLOAD_SIZE, 0x40000 //fix to adjust automatically later
 
 //hook main game loop, DMA our code/data, jump to the game loop that was moved to expansion pak memory
 .org 0x8000E7B8 //ROM 0xF3B8
@@ -84,14 +84,17 @@ BNEZ t1, exitLookup
 LW t3, 0x002C (sp)
 SLL t2, t0, 2 //multiply by 4
 ADDU t4, t3, t2
+LI t8, -2
 LW t5, 0x0000 (t4)
+BEQ t8, t5, isSkip
+NOP
 LI t6, defaultString
-BNEL t5, t7, newMessage //new message not found, default to original string
 ADDU a1, t5, r0 //new pointer to message
 
 
-isPointer: //here temporarily for testing
+isPointer:
 size0:
+isSkip:
 newMessage:
 exitLookup:
 LW a0, 0x0020 (sp)
