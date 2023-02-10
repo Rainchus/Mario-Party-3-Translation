@@ -11,6 +11,12 @@ void crash_screen_init(void);
 #define SKIP (char*)-2
 #define IMAGE_PAD "\x1A\x1A\x1A\x1A"
 
+#define MINIGAME_PAD "\x1A\x1A\x1A\x1A\x1A\x1A\x1A\x1A\x1A\x1A"
+#define END_OUTLINE "\x16"
+#define START_OUTLINE "\x0F"
+#define GREEN "\x05"
+#define END_COLOR "\x19"
+
 char defaultString[] = "test";
 
 char* group00[] = {END_GROUP};
@@ -82,15 +88,12 @@ char* group41[] = {END_GROUP};
 char* group42[] = {END_GROUP};
 char* group43[] = {END_GROUP};
 
-s32 vinewithmetest[] = {
-0x0B1A1A1A, 0x1A1A1A1A, 0x1A1A1A19, 0x050F1116,
-0x19190A1A, 0x1A1A1A1A, 0x1A1A1A1A, 0x1A19194A,
-0x756D7020, 0x66726F6D, 0x2076696E, 0x6520746F,
-0x2076696E, 0x6520696E, 0x19190A1A, 0x1A1A1A1A,
-0x1A1A1A1A, 0x1A191961, 0x20726163, 0x65207468,
-0x726F7567, 0x68207468, 0x65205069, 0x72616E68,
-0x6119190A, 0x1A1A1A1A, 0x1A1A1A1A, 0x1A1A1919,
-0x506C616E, 0x7420666F, 0x72657374, 0x85191900,
+char vinewithmetest[] = {
+"\x0B"
+MINIGAME_PAD "\x0F\x05Vine With Me Title" END_OUTLINE END_COLOR "\n"
+MINIGAME_PAD "Shoot the Baby Bowser targets" END_COLOR "\n"
+MINIGAME_PAD "as they appear in the windows\x85" END_COLOR "\n"
+MINIGAME_PAD "Don\x5Ct hit Toad\xC2" END_COLOR
 };
 
 char* group44[] = {
