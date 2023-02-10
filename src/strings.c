@@ -90,7 +90,7 @@ char* group43[] = {END_GROUP};
 
 char vinewithmetest[] = {
 "\x0B"
-MINIGAME_PAD "\x0F\x05Vine With Me Title" END_OUTLINE END_COLOR "\n"
+MINIGAME_PAD START_OUTLINE GREEN "Vine With Me Title" END_OUTLINE END_COLOR "\n"
 MINIGAME_PAD "Shoot the Baby Bowser targets" END_COLOR "\n"
 MINIGAME_PAD "as they appear in the windows\x85" END_COLOR "\n"
 MINIGAME_PAD "Don\x5Ct hit Toad\xC2" END_COLOR
