@@ -79,8 +79,8 @@ SW a0, 0x002C (sp)
 BEQZ v0, size0
 LW a1, 0x0024 (sp)
 ANDI t0, a1, 0x00FF //get offset into group
-SLT t1, v0, t0
-BNEZ t1, exitLookup
+SLT t1, t0, v0
+BEQZ t1, exitLookup
 LW t3, 0x002C (sp)
 SLL t2, t0, 2 //multiply by 4
 ADDU t4, t3, t2
