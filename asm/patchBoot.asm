@@ -54,31 +54,65 @@ customDataAndCode:
     J mainLoop
     NOP
 
-getCustomMessageID: //a1 holds message ID
+refreshStringsHook:
 ADDIU sp, sp, -0x28 //restore from hook
 SW ra, 0x0024 (sp) //restore from hook
 
-ADDIU sp, sp, -0x30
-SW a0, 0x0020 (sp)
-SW a1, 0x0024 (sp)
+    ADDIU sp, sp, -0x28
+    SW ra, 0x0024 (sp)
+    JAL getCustomMessageID
+    NOP
+    LW ra, 0x0024 (sp)
+    ADDU a1, v0, r0
+    J 0x8005B444
+    ADDIU sp, sp, 0x28
+
+otherStringsHook:
+ADDIU sp, sp, -0x48 //restore from hook
+SW ra, 0x0044 (sp) //restore from hook
+
+    ADDIU sp, sp, -0x28
+    SW ra, 0x0024 (sp)
+    JAL getCustomMessageID //returns to v0 and v1
+    NOP
+    LW ra, 0x0024 (sp)
+    BEQZ v1, otherStringsHookNormalExit
+    ADDU a0, v0, r0
+    //non converted
+    LW ra, 0x0024 (sp)
+    ADDIU sp, sp, 0x28
+    J 0x800364E4
+    NOP
+
+    otherStringsHookNormalExit:
+    ADDIU sp, sp, 0x28
+    LW ra, 0x0044 (sp)
+    JR RA
+    ADDIU sp, sp, 0x48
+
+
+getCustomMessageID: //a0 holds message ID
+ADDIU sp, sp, -0x40
+SW a0, 0x0024 (sp)
 SW a2, 0x0028 (sp)
-//SW t3, 0x002C (sp)
+SW ra, 0x0030 (sp)
+DADDU v1, r0, r0
 
 LUI t0, 0x8000
-AND t1, t0, a1
+AND t1, t0, a0
 BEQ t1, t0, isPointer
 NOP
 
 LI t0, textGroups
-SRL t1, a1, 8 //knock bottom 8 bits off
+SRL t1, a0, 8 //knock bottom 8 bits off
 SLL t2, t1, 2 //multiply by 2
 ADDU t3, t2, t0 //now points to a char* []
 LW a0, 0x0000 (t3) //load said char* []
 JAL getGroupSize
 SW a0, 0x002C (sp)
 BEQZ v0, size0
-LW a1, 0x0024 (sp)
-ANDI t0, a1, 0x00FF //get offset into group
+LW a0, 0x0024 (sp)
+ANDI t0, a0, 0x00FF //get offset into group
 SLT t1, t0, v0
 BEQZ t1, exitLookup
 LW t3, 0x002C (sp)
@@ -87,21 +121,25 @@ ADDU t4, t3, t2
 LI t8, -2
 LW t5, 0x0000 (t4)
 BEQ t8, t5, isSkip
-NOP
+ORI v1, r0, 0
 LI t6, defaultString
-ADDU a1, t5, r0 //new pointer to message
+ADDU a0, t5, r0 //new pointer to message
 
 
 isPointer:
 size0:
+J exitLookup
+NOP
+
 isSkip:
+ORI v1, r0, 1
 newMessage:
 exitLookup:
-LW a0, 0x0020 (sp)
 LW a2, 0x0028 (sp)
-LW t3, 0x002C (sp)
-J 0x8005B444
-ADDIU sp, sp, 0x30
+LW ra, 0x0030 (sp)
+ADDU v0, a0, r0
+JR RA
+ADDIU sp, sp, 0x40
 
 crash_screen_sleep: //takes arg a0, ms to sleep
 ADDIU sp, sp, -0x20

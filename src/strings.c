@@ -96,6 +96,14 @@ MINIGAME_PAD "as they appear in the windows\x85" END_COLOR "\n"
 MINIGAME_PAD "Don\x5Ct hit Toad\xC2" END_COLOR
 };
 
+char popgunpickoff[] = {
+"\x0B"
+MINIGAME_PAD "\x0F\x05Popgun Pick-Off" END_OUTLINE END_COLOR "\n"
+MINIGAME_PAD "Shoot the Baby Bowser targets" END_COLOR "\n"
+MINIGAME_PAD "as they appear in the windows\x85" END_COLOR "\n"
+MINIGAME_PAD "Don\x5Ct hit Toad\xC2" END_COLOR
+};
+
 char* group44[] = {
 /* 0x00 */ SKIP,
 /* 0x01 */ SKIP,
@@ -147,12 +155,20 @@ char* group44[] = {
 /* 0x2F */ SKIP,
 /* 0x30 */ SKIP,
 /* 0x31 */ vinewithmetest,
-/* 0x32 */ END_GROUP
+/* 0x32 */ popgunpickoff,
+/* 0x33 */ END_GROUP
 };
 
 char* group45[] = {END_GROUP};
 char* group46[] = {END_GROUP};
-char* group47[] = {END_GROUP};
+
+char* MinigameTitles[] = {
+/* 0x00 */ SKIP,
+/* 0x01 */ SKIP,
+/* 0x02 */ "\x0B" "Custom Title", //custom title for Spotlight Swim
+/* 0x03 */ END_GROUP
+};
+
 char* group48[] = {END_GROUP};
 char* group49[] = {END_GROUP};
 char* group4A[] = {END_GROUP};
@@ -197,7 +213,7 @@ char** textGroups[] = {
     group37,group38,group39,group3A,group3B,
     group3C,group3D,group3E,group3F,group40,
     group41,group42,group43,group44,group45,
-    group46,group47,group48,group49,group4A,
+    group46,MinigameTitles,group48,group49,group4A,
     group4B,group4C,group4D,group4E,group4F,
     group50,group51,group52,group53,group54,
     group55,group56,group57,group58,group59,
